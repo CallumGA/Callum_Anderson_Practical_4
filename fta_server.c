@@ -2,13 +2,13 @@
  * COMP 3271 - Computer Networks
  * Project Part 4 - Basic file transfer application using SWAP protocol
  * Modifications - Implement usage of the swap_read, swap_wait, and swap_close functions
- * 
+ *
  * Author: Callum Anderson
  * Date: July 2, 2024
- * 
+ *
  * Description:
  * Uses the wait, read, and close SWAP functions to read incoming packets and save the contents and file to the server.
- * 
+ *
  * To Compile:   gcc fta_server.c swap_server.c sdp.c checksum.c -o fta_server
  * To Run:       ./fta_server 8899
  */
@@ -22,16 +22,18 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-#define MAXLINE 128 // maximum bytes to receive and send at once
+// maximum bytes to receive and send at once
+#define MAXLINE 128
 #define MAX_FTA 512
 
-// External functions
+// external swap functions
 extern int swap_wait(unsigned short port);
 extern int swap_read(int sd, unsigned char buf[]);
 extern void swap_close(int sd);
 
 int main(int argc, char *argv[])
 {
+	// declare variables for the following code
 	unsigned short server_port;
 	unsigned int server_address;
 	unsigned char message[MAXLINE];
@@ -40,6 +42,7 @@ int main(int argc, char *argv[])
 	unsigned char filename[256];
 	FILE *file;
 
+	// verify correct command line params passed
 	if (argc < 2)
 	{
 		fprintf(stderr, "Usage: %s port\n", argv[0]);
@@ -57,28 +60,27 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 
-	// Students to code the following:
-
-	// read in the first message as the new name of the file
-	// read message from the client and store them into the above file
-	// Read the filename from the client
+	// read the incoming file name from the client
 	bytes_read = swap_read(sd, filename);
+	// error handling for read
 	if (bytes_read <= 0)
 	{
 		fprintf(stderr, "Error reading filename\n");
 		exit(EXIT_FAILURE);
 	}
-	filename[bytes_read] = '\0'; // Null-terminate the filename
+	// null-terminate the filename
+	filename[bytes_read] = '\0';
 
-	// Open the file for writing
+	// use the sent filename to create or open the file for writing
 	file = fopen((const char *)filename, "wb");
+	// error handling for opening the file
 	if (!file)
 	{
 		fprintf(stderr, "Error opening file: %s\n", filename);
 		exit(EXIT_FAILURE);
 	}
 
-	// Read file data from the client until end-of-file
+	// read file data from the packets being sent from the client
 	while ((bytes_read_contents = swap_read(sd, buf)) > 0)
 	{
 		// write incoming packet data to the file on the server
