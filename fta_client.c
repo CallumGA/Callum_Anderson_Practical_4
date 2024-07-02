@@ -1,3 +1,19 @@
+/*
+ * COMP 3271 - Computer Networks
+ * Project Part 4 - Basic file transfer application using SWAP protocol
+ * Modifications - Implement usage of the swap_write function for transfering a file from client to server
+ * 
+ * Author: Callum Anderson
+ * Date: July 2, 2024
+ * 
+ * Description:
+ * Uses the open, write, and close SWAP functions to transfer a file via SWAP protocol to the server
+ * 
+ * To Compile:   gcc fta_client.c swap_client.c sdp.c checksum.c -o fta_client
+ * To Run:       ./fta_client 127.0.0.1 8899 input-filename
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

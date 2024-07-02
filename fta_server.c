@@ -1,3 +1,18 @@
+/*
+ * COMP 3271 - Computer Networks
+ * Project Part 4 - Basic file transfer application using SWAP protocol
+ * Modifications - Implement usage of the swap_read, swap_wait, and swap_close functions
+ * 
+ * Author: Callum Anderson
+ * Date: July 2, 2024
+ * 
+ * Description:
+ * Uses the wait, read, and close SWAP functions to read incoming packets and save the contents and file to the server.
+ * 
+ * To Compile:   gcc fta_server.c swap_server.c sdp.c checksum.c -o fta_server
+ * To Run:       ./fta_server 8899
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
